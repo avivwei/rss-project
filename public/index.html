@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<title>XML Display</title>
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
+</head>
+<body ng-app="journyApp">
+	<my-card my-title="'Ilfracombe'"
+           my-pic="'http://teropa.info/ilfracombe.jpg'">
+    <p id="printJason">Ilfracombe /ˈɪlfrəkuːm/ is a seaside resort and civil parish on the North Devon coast, England with a small harbour, surrounded by cliffs.</p>
+    <p>The parish stretches along the coast from 'The Coastguard Cottages' in Hele Bay toward the east and 4 miles along The Torrs to Lee Bay toward the west. The resort is hilly and the highest point within the parish boundary is at 'Hore Down Gate', 2 miles inland and 860 feet (270 m) above sea level.</p>
+  </my-card>
+  
+  <script type="text/ng-template" id="myCard">
+    <article>
+      <img class="pic" ng-src="{{ctrl.pic}}">
+      <h2>{{ctrl.title}}</h2>
+      <div class="content"></div>
+    </article>
+  </script>
+  
+	<div ng-controller="journyCtrl">
+		<div ng-repeat = "message in messages"> {{message.text}}</div>
+		<input type="text" class="form-control" ng-model="input"></input>
+		<button id="print" ng-click="addToDB()">Submit</button>
+
+	</div>	
+	<script src="angular/angular.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/factory.js"></script>
+	<script src="js/controller.js"></script>
+	<script type="text/javascript" src="js/xml2json.js"></script>
+<script type="text/javascript">
+function fetchAndParseXML(url, success) {
+$.ajax({
+	 	type: "GET",
+	 	url: url,
+	 	dataType: "xml",
+	 	success: function(data) {
+	 		success(xml2json(data));
+	 	}
+	 	});
+ }
+ fetchAndParseXML('cd_catalog.xml', function(data) {
+ 	console.log('hurray!', data);
+ 	$('#print').click(function() {
+  $('#printJason').append(data.JSON.CD[0].TITLE);
+});
+
+ })
+// Append "RSS Title" to #someElement 
+</script>
+<p id="jason-text"></p> 
+</body>
+</html>
